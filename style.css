@@ -185,3 +185,47 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
 .related-links a { padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: white; font-weight: 700; }
 .related-links a:hover { color: var(--primary); border-color: rgba(184,97,28,.3); }
 @media (max-width: 960px) { .page-grid, .info-strip { grid-template-columns: 1fr; } .page-side { position: static; } }
+
+
+/* Header improvements */
+.nav-wrap {
+  flex-wrap: wrap;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.brand img {
+  height: 60px;
+  width: auto !important;
+  max-width: 100%;
+  object-fit: contain;
+}
+.desktop-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.desktop-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(69, 41, 11, 0.06);
+  line-height: 1.2;
+}
+.desktop-nav a:hover {
+  color: var(--primary);
+  border-color: rgba(184,97,28,.35);
+  background: rgba(184,97,28,.05);
+}
+@media (max-width: 1120px) {
+  .nav-wrap {
+    justify-content: center;
+  }
+}
