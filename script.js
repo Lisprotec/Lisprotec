@@ -105,9 +105,7 @@ function calculateEstimate() {
 
   function calcMAPPrice() {
     if (!includeMAP || areaNum <= 0 || !ut) return { total: 0, discount: 0 };
-    const multiplier = ut ? ut.factor : 1;
-    const total = Math.max(areaNum * 1.0 * multiplier, 350);
-    return { total, discount: 0 };
+    return calcAreaBasedPrice(1.0, 350, true);
   }
 
   function calcCoordenacaoPrice() {
