@@ -180,14 +180,15 @@ function calculateEstimate() {
     district,
     ut,
     items: [
-      mainPrice > 0
-        ? [mainService === "projeto" ? "Projeto SCIE" : "Ficha de Segurança", mainPrice]
-        : null,
-      mapPrice > 0 ? ["Medidas de Autoproteção", mapPrice] : null,
-      coordenacaoPrice > 0 ? ["Coordenação de Segurança — Valor mensal", coordenacaoPrice] : null,
-      simulacroPrice > 0 ? ["Simulacro", simulacroPrice] : null,
-      districtSurcharge > 0 ? ["Custos operacionais", districtSurcharge] : null,
-    ].filter(Boolean),
+     items: [
+  mainPrice > 0
+    ? [mainService === "projeto" ? "Projeto SCIE" : "Ficha de Segurança", mainPrice]
+    : null,
+  mapPrice > 0 ? ["Medidas de Autoproteção", mapPrice] : null,
+  coordenacaoPrice > 0 ? ["Coordenação de Segurança — Valor mensal", coordenacaoPrice] : null,
+  simulacroPrice > 0 ? ["Simulacro", simulacroPrice] : null,
+  districtSurcharge > 0 ? ["Custos operacionais", districtSurcharge] : null,
+].filter(Boolean),
     totalPrice,
     totalDiscount,
     showDiscountMessage: totalDiscount > 0,
