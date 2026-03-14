@@ -702,24 +702,25 @@ hr {
   }
 }
 .hero-image-top{
+.hero-image-top{
   position: relative;
   overflow: hidden;
 }
 
 .hero-image-top::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("./hero-industrial.png") center/cover no-repeat;
-  z-index:0;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./hero-industrial.png") center/cover no-repeat;
+  z-index: 0;
 }
 
 .hero-image-top::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75));
-  z-index:1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75));
+  z-index: 1;
 }
 
 .hero-image-top .container{
@@ -728,7 +729,24 @@ hr {
 }
 
 .hero-image-top h1,
+.hero-image-top h2,
 .hero-image-top p,
+.hero-image-top li,
+.hero-image-top .lead,
+.hero-image-top .check-list,
+.hero-image-top .panel-kicker{
+  color: white;
+}
+
 .hero-image-top .eyebrow{
-  color:white;
+  color: white;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.hero-image-top .hero-panel{
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+  backdrop-filter: blur(4px);
 }
