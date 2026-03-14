@@ -701,3 +701,34 @@ hr {
     white-space: normal;
   }
 }
+.hero-image-top{
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image-top::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("./hero-industrial.png") center/cover no-repeat;
+  z-index:0;
+}
+
+.hero-image-top::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75));
+  z-index:1;
+}
+
+.hero-image-top .container{
+  position: relative;
+  z-index: 2;
+}
+
+.hero-image-top h1,
+.hero-image-top p,
+.hero-image-top .eyebrow{
+  color:white;
+}
