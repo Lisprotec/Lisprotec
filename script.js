@@ -1,356 +1,399 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const yearEl = document.getElementById("year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
+const UT_OPTIONS = [
+  { label: "UT I – Habitacional", factor: 1 },
+  { label: "UT II – Estacionamento", factor: 1.3 },
+  { label: "UT III – Administrativo", factor: 1 },
+  { label: "UT IV – Escolar", factor: 1.3 },
+  { label: "UT V – Hospitalar / Lares", factor: 1.8 },
+  { label: "UT VI – Espetáculos e reuniões públicas", factor: 1.3 },
+  { label: "UT VII – Hoteleiro / Restauração", factor: 1.3 },
+  { label: "UT VIII – Comercial / Gares de transporte", factor: 1 },
+  { label: "UT IX – Desportivo / Lazer", factor: 1.3 },
+  { label: "UT X – Museus e galerias", factor: 1 },
+  { label: "UT XI – Bibliotecas e arquivos", factor: 1 },
+  { label: "UT XII – Industrial / Oficinas / Armazéns", factor: 1.8 },
+];
 
-  const simulatorForm = document.getElementById("simulator-form");
-  const proposalForm = document.getElementById("proposal-form");
-  const contactForm = document.getElementById("contact-form");
+const DISTRICT_SURCHARGES = {
+  "Viana do Castelo": 220,
+  "Braga": 220,
+  "Vila Real": 220,
+  "Bragança": 220,
+  "Porto": 220,
 
-  const mainServiceEl = document.getElementById("mainService");
-  const includeMAPEl = document.getElementById("includeMAP");
-  const includeCoordenacaoEl = document.getElementById("includeCoordenacao");
-  const includeSimulacroEl = document.getElementById("includeSimulacro");
-  const areaEl = document.getElementById("area");
-  const districtEl = document.getElementById("district");
-  const utIndexEl = document.getElementById("utIndex");
+  "Aveiro": 180,
+  "Viseu": 180,
+  "Guarda": 180,
+  "Coimbra": 180,
+  "Castelo Branco": 180,
+  "Leiria": 180,
 
-  const resultEmpty = document.getElementById("resultEmpty");
-  const resultContent = document.getElementById("resultContent");
-  const resultItems = document.getElementById("resultItems");
-  const resultTotal = document.getElementById("resultTotal");
-  const resultDiscount = document.getElementById("resultDiscount");
+  "Lisboa": 25,
+  "Santarém": 40,
+  "Setúbal": 40,
 
-  const proposalStatus = document.getElementById("proposalStatus");
-  const contactStatus = document.getElementById("contactStatus");
+  "Portalegre": 120,
+  "Évora": 120,
+  "Beja": 120,
 
-  const formatCurrency = (value) =>
-    new Intl.NumberFormat("pt-PT", {
-      style: "currency",
-      currency: "EUR"
-    }).format(value);
+  "Faro": 180,
+};
 
-  const districtCosts = {
-    "Viana do Castelo": 220,
-    "Braga": 220,
-    "Vila Real": 220,
-    "Bragança": 220,
-    "Porto": 220,
-    "Aveiro": 180,
-    "Viseu": 180,
-    "Guarda": 180,
-    "Coimbra": 180,
-    "Castelo Branco": 180,
-    "Leiria": 180,
-    "Lisboa": 25,
-    "Santarém": 40,
-    "Setúbal": 40,
-    "Portalegre": 120,
-    "Évora": 120,
-    "Beja": 120,
-    "Faro": 180
-  };
-
-  const utMultipliers = {
-    0: 1.00,
-    1: 1.10,
-    2: 1.15,
-    3: 1.20,
-    4: 1.35,
-    5: 1.30,
-    6: 1.25,
-    7: 1.20,
-    8: 1.15,
-    9: 1.10,
-    10: 1.10,
-    11: 1.30
-  };
-
-  function getAreaValue() {
-    const area = parseFloat(areaEl.value);
-    return isNaN(area) || area < 0 ? 0 : area;
-  }
-
-  function calculateMainServicePrice(service, area, utMultiplier) {
-    if (!service || utMultiplier === undefined || utMultiplier === null) return 0;
-
-    if (service === "projeto") {
-      let base = 0;
-
-      if (area <= 250) {
-        base = 420;
-      } else if (area <= 500) {
-        base = 420;
-      } else if (area <= 1000) {
-        base = 500;
-      } else if (area <= 2500) {
-        base = 750;
-      } else {
-        base = 750 + (area - 2500) * 0.12;
-      }
-
-      return base * utMultiplier;
-    }
-
-    if (service === "ficha") {
-      let base = 0;
-
-      if (area <= 250) {
-        base = 250;
-      } else if (area <= 500) {
-        base = 250;
-      } else if (area <= 1000) {
-        base = 250;
-      } else if (area <= 2500) {
-        base = 300;
-      } else {
-        base = 300 + (area - 2500) * 0.05;
-      }
-
-      return base * utMultiplier;
-    }
-
-    return 0;
-  }
-
-  function calculateExtras(area) {
-    const extras = [];
-
-    if (includeMAPEl.checked) {
-      let value = 350;
-      if (area > 500 && area <= 1000) value = 350;
-      else if (area > 1000 && area <= 2500) value = 350;
-      else if (area > 2500) value = 450;
-
-      extras.push({
-        label: "Medidas de Autoproteção",
-        value
-      });
-    }
-
-    if (includeCoordenacaoEl.checked) {
-      let value = 230;
-      if (area > 500 && area <= 1000) value = 230;
-      else if (area > 1000 && area <= 2500) value = 320;
-      else if (area > 2500) value = 450;
-
-      extras.push({
-        label: "Coordenação de Segurança",
-        value
-      });
-    }
-
-    if (includeSimulacroEl.checked) {
-      let value = 260;
-      if (area > 500 && area <= 1000) value = 260;
-      else if (area > 1000 && area <= 2500) value = 300;
-      else if (area > 2500) value = 400;
-
-      extras.push({
-        label: "Simulacro",
-        value
-      });
-    }
-
-    return extras;
-  }
-
-  function renderResult(items, total, discountText = "") {
-    resultItems.innerHTML = "";
-
-    items.forEach((item) => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span>${item.label}</span>
-        <strong>${formatCurrency(item.value)}</strong>
-      `;
-      resultItems.appendChild(li);
-    });
-
-    resultTotal.textContent = formatCurrency(total);
-
-    if (discountText) {
-      resultDiscount.textContent = discountText;
-      resultDiscount.classList.remove("hidden");
-    } else {
-      resultDiscount.textContent = "";
-      resultDiscount.classList.add("hidden");
-    }
-
-    resultEmpty.classList.add("hidden");
-    resultContent.classList.remove("hidden");
-  }
-
-  function resetResult() {
-    resultItems.innerHTML = "";
-    resultTotal.textContent = formatCurrency(0);
-    resultDiscount.textContent = "";
-    resultDiscount.classList.add("hidden");
-    resultContent.classList.add("hidden");
-    resultEmpty.classList.remove("hidden");
-  }
-
-  function updateSimulator() {
-    const mainService = mainServiceEl.value;
-    const area = getAreaValue();
-    const district = districtEl.value;
-    const utIndex = utIndexEl.value;
-
-    const hasAnyExtra =
-      includeMAPEl.checked ||
-      includeCoordenacaoEl.checked ||
-      includeSimulacroEl.checked;
-
-    const hasOperationalCost =
-      district && districtCosts[district] !== undefined;
-
-    if (!mainService && !hasAnyExtra && !hasOperationalCost) {
-      resetResult();
-      return;
-    }
-
-    const items = [];
-    let servicesTotal = 0;
-    let operationalCost = 0;
-
-    const utMultiplier =
-      utIndex !== "" ? utMultipliers[Number(utIndex)] || 1 : 1;
-
-    if (mainService) {
-      const mainPrice = calculateMainServicePrice(mainService, area, utMultiplier);
-
-      if (mainPrice > 0) {
-        items.push({
-          label: mainService === "projeto" ? "Projeto SCIE" : "Ficha de Segurança",
-          value: Math.round(mainPrice * 100) / 100
-        });
-
-        servicesTotal += mainPrice;
-      }
-    }
-
-    const extras = calculateExtras(area);
-    extras.forEach((extra) => {
-      items.push(extra);
-      servicesTotal += extra.value;
-    });
-
-    if (hasOperationalCost) {
-      operationalCost = districtCosts[district];
-
-      items.push({
-        label: `Custos operacionais (${district})`,
-        value: operationalCost
-      });
-    }
-
-    let discountText = "";
-    const selectedServicesCount =
-      (mainService ? 1 : 0) +
-      (includeMAPEl.checked ? 1 : 0) +
-      (includeCoordenacaoEl.checked ? 1 : 0) +
-      (includeSimulacroEl.checked ? 1 : 0);
-
-    let discountValue = 0;
-
-    if (selectedServicesCount >= 3) {
-      discountValue = servicesTotal * 0.08;
-      discountText = `Desconto de pacote aplicado: ${formatCurrency(discountValue)}`;
-    }
-
-    const total = Math.round((servicesTotal - discountValue + operationalCost) * 100) / 100;
-
-    if (items.length === 0) {
-      resetResult();
-      return;
-    }
-
-    renderResult(items, total, discountText);
-  }
-
-  if (simulatorForm) {
-    simulatorForm.addEventListener("input", updateSimulator);
-    simulatorForm.addEventListener("change", updateSimulator);
-  }
-
-  if (proposalForm) {
-    proposalForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const nome = document.getElementById("nome")?.value?.trim() || "";
-      const empresa = document.getElementById("empresa")?.value?.trim() || "";
-      const email = document.getElementById("email")?.value?.trim() || "";
-      const telefone = document.getElementById("telefone")?.value?.trim() || "";
-      const tipoEdificio = document.getElementById("tipoEdificio")?.value?.trim() || "";
-      const mensagem = document.getElementById("mensagem")?.value?.trim() || "";
-
-      const mainService = mainServiceEl.value;
-      const area = areaEl.value;
-      const district = districtEl.value;
-      const utText = utIndexEl.options[utIndexEl.selectedIndex]?.text || "";
-
-      const extras = [];
-      if (includeMAPEl.checked) extras.push("Medidas de Autoproteção");
-      if (includeCoordenacaoEl.checked) extras.push("Coordenação de Segurança");
-      if (includeSimulacroEl.checked) extras.push("Simulacro");
-
-      const bodyLines = [
-        "Novo pedido de orçamento detalhado",
-        "",
-        `Nome: ${nome}`,
-        `Empresa: ${empresa}`,
-        `Email: ${email}`,
-        `Telefone: ${telefone}`,
-        `Tipo de edifício: ${tipoEdificio}`,
-        "",
-        "Dados do simulador:",
-        `Serviço principal: ${mainService || "Não selecionado"}`,
-        `Extras: ${extras.length ? extras.join(", ") : "Nenhum"}`,
-        `Área: ${area || "Não indicada"} m²`,
-        `Distrito: ${district || "Não indicado"}`,
-        `Utilização-Tipo: ${utText || "Não indicada"}`,
-        "",
-        `Mensagem adicional: ${mensagem || "Sem mensagem adicional"}`
-      ];
-
-      const subject = encodeURIComponent("Pedido de orçamento - Lisprotec");
-      const body = encodeURIComponent(bodyLines.join("\n"));
-
-      window.location.href = `mailto:lisprotec@outlook.com?subject=${subject}&body=${body}`;
-
-      proposalStatus.textContent = "O seu cliente de email foi aberto para enviar o pedido.";
-    });
-  }
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById("contactName")?.value?.trim() || "";
-      const email = document.getElementById("contactEmail")?.value?.trim() || "";
-      const phone = document.getElementById("contactPhone")?.value?.trim() || "";
-      const message = document.getElementById("contactMessage")?.value?.trim() || "";
-
-      const subject = encodeURIComponent("Contacto através do site - Lisprotec");
-      const body = encodeURIComponent(
-        [
-          "Nova mensagem enviada através do site",
-          "",
-          `Nome: ${name}`,
-          `Email: ${email}`,
-          `Telefone: ${phone}`,
-          "",
-          "Mensagem:",
-          message
-        ].join("\n")
-      );
-
-      window.location.href = `mailto:lisprotec@outlook.com?subject=${subject}&body=${body}`;
-
-      contactStatus.textContent = "O seu cliente de email foi aberto para enviar a mensagem.";
-    });
-  }
-
-  updateSimulator();
+const euro = new Intl.NumberFormat("pt-PT", {
+  style: "currency",
+  currency: "EUR",
 });
+
+const byId = (id) => document.getElementById(id);
+
+function getProgressiveDiscountRate(area) {
+  if (area <= 750) return 0;
+  if (area >= 2500) return 0.6;
+  return ((area - 750) / (2500 - 750)) * 0.6;
+}
+
+function getDiscountedM2Rate(baseRate, area) {
+  return baseRate * (1 - getProgressiveDiscountRate(area));
+}
+
+function getDistrictSurcharge(district) {
+  return DISTRICT_SURCHARGES[district] || 0;
+}
+
+function getSimulacroBasePrice(area) {
+  if (area <= 0) return 0;
+  if (area <= 900) return 280;
+  if (area >= 5000) return 1450;
+  return Math.round(280 + ((area - 900) / (5000 - 900)) * (1450 - 280));
+}
+
+function getSimulacroDiscountRate(area) {
+  if (area <= 2500) return 0;
+  if (area >= 5000) return 0.6;
+  return ((area - 2500) / (5000 - 2500)) * 0.6;
+}
+
+function calculateEstimate() {
+  const mainService = byId("mainService")?.value || "";
+  const includeMAP = byId("includeMAP")?.checked || false;
+  const includeCoordenacao = byId("includeCoordenacao")?.checked || false;
+  const includeSimulacro = byId("includeSimulacro")?.checked || false;
+  const areaNum = parseFloat(byId("area")?.value || "0") || 0;
+  const district = byId("district")?.value || "";
+  const utIndexValue = byId("utIndex")?.value;
+  const ut = utIndexValue === "" ? null : UT_OPTIONS[Number(utIndexValue)];
+
+  const hasAnyService = mainService !== "" || includeMAP || includeCoordenacao || includeSimulacro;
+  const needsUT = mainService !== "" || includeMAP;
+
+  function calcAreaBasedPrice(baseRate, minPrice, useUTFactor = true) {
+    if (areaNum <= 0) return { total: 0, discount: 0 };
+
+    const effectiveRate = getDiscountedM2Rate(baseRate, areaNum);
+    const multiplier = useUTFactor && ut ? ut.factor : 1;
+    const gross = areaNum * baseRate * multiplier;
+    const discounted = areaNum * effectiveRate * multiplier;
+    const total = Math.max(discounted, minPrice);
+
+    return {
+      total,
+      discount: Math.max(0, gross - total),
+    };
+  }
+
+  function calcMainPrice() {
+    if (!mainService || areaNum <= 0 || !ut) return { total: 0, discount: 0 };
+
+    const minPrice = mainService === "projeto" ? 450 : 250;
+    const baseRate = mainService === "projeto" ? 1.0 : 0.8;
+
+    return calcAreaBasedPrice(baseRate, minPrice, true);
+  }
+
+  function calcMAPPrice() {
+    if (!includeMAP || areaNum <= 0 || !ut) return { total: 0, discount: 0 };
+    return calcAreaBasedPrice(1.0, 350, true);
+  }
+
+  function calcCoordenacaoPrice() {
+    if (!includeCoordenacao || areaNum <= 0) return { total: 0, discount: 0 };
+
+    if (areaNum <= 7500) {
+      return { total: 230, discount: 0 };
+    }
+
+    return {
+      total: 230 + ((areaNum - 7500) * 0.15),
+      discount: 0,
+    };
+  }
+
+  function calcSimulacroPrice() {
+    if (!includeSimulacro || areaNum <= 0) {
+      return { total: 0, discount: 0, hasDiscount: false };
+    }
+
+    const basePrice = getSimulacroBasePrice(areaNum);
+    const discountRate = getSimulacroDiscountRate(areaNum);
+    const total = basePrice * (1 - discountRate);
+    const discount = basePrice - total;
+
+    return {
+      total,
+      discount,
+      hasDiscount: discountRate > 0,
+    };
+  }
+
+  const mainCalc = calcMainPrice();
+  const mapCalc = calcMAPPrice();
+  const coordenacaoCalc = calcCoordenacaoPrice();
+  const simulacroCalc = calcSimulacroPrice();
+
+  const districtSurcharge = getDistrictSurcharge(district);
+
+  const mainPrice = mainCalc.total;
+  const mapPrice = mapCalc.total;
+  const coordenacaoPrice = coordenacaoCalc.total;
+  const simulacroPrice = simulacroCalc.total;
+
+  const totalDiscount =
+    mainCalc.discount +
+    mapCalc.discount +
+    simulacroCalc.discount;
+
+  const totalPrice =
+    mainPrice +
+    mapPrice +
+    coordenacaoPrice +
+    simulacroPrice +
+    districtSurcharge;
+
+  const canShow =
+    hasAnyService &&
+    areaNum > 0 &&
+    district !== "" &&
+    (!needsUT || ut !== null);
+
+  return {
+    canShow,
+    areaNum,
+    district,
+    ut,
+    items: [
+      mainPrice > 0
+        ? [mainService === "projeto" ? "Projeto SCIE" : "Ficha de Segurança", mainPrice]
+        : null,
+      mapPrice > 0 ? ["Medidas de Autoproteção", mapPrice] : null,
+      coordenacaoPrice > 0 ? ["Coordenação de Segurança — Valor mensal", coordenacaoPrice] : null,
+      simulacroPrice > 0 ? ["Simulacro", simulacroPrice] : null,
+      districtSurcharge > 0 ? ["Custos operacionais", districtSurcharge] : null,
+    ].filter(Boolean),
+    totalPrice,
+    totalDiscount,
+    showDiscountMessage: totalDiscount > 0,
+    services: [
+      mainService === "projeto" ? "Projeto SCIE" : "",
+      mainService === "ficha" ? "Ficha de Segurança" : "",
+      includeMAP ? "Medidas de Autoproteção" : "",
+      includeCoordenacao ? "Coordenação de Segurança (valor mensal)" : "",
+      includeSimulacro ? "Simulacro" : "",
+    ].filter(Boolean),
+  };
+}
+
+function renderEstimate() {
+  const result = calculateEstimate();
+  const empty = byId("resultEmpty");
+  const content = byId("resultContent");
+  const list = byId("resultItems");
+  const total = byId("resultTotal");
+  const discount = byId("resultDiscount");
+
+  if (!empty || !content || !list || !total || !discount) return;
+
+  if (!result.canShow) {
+    empty.classList.remove("hidden");
+    content.classList.add("hidden");
+    list.innerHTML = "";
+    total.textContent = euro.format(0);
+    discount.textContent = "";
+    discount.classList.add("hidden");
+    return;
+  }
+
+  empty.classList.add("hidden");
+  content.classList.remove("hidden");
+
+  list.innerHTML = result.items
+    .map(([label, price]) => `<li><span>${label}</span><strong>${euro.format(price)}</strong></li>`)
+    .join("");
+
+  total.textContent = euro.format(result.totalPrice);
+
+  if (result.showDiscountMessage) {
+    discount.textContent = `Desconto aplicado: ${euro.format(result.totalDiscount)}`;
+    discount.classList.remove("hidden");
+  } else {
+    discount.textContent = "";
+    discount.classList.add("hidden");
+  }
+}
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mreyeqdq";
+
+function setStatus(elementId, message, type = "") {
+  const el = byId(elementId);
+  if (!el) return;
+  el.textContent = message;
+  el.className = `form-status${type ? ` ${type}` : ""}`;
+}
+
+async function submitToFormspree(payload) {
+  const response = await fetch(FORMSPREE_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    let errorMessage = "Não foi possível enviar o formulário. Tente novamente.";
+    try {
+      const data = await response.json();
+      if (data?.errors?.length) {
+        errorMessage = data.errors.map((item) => item.message).join(" ");
+      }
+    } catch (error) {
+      // ignore parsing errors and keep generic message
+    }
+    throw new Error(errorMessage);
+  }
+
+  return response.json().catch(() => ({}));
+}
+
+async function openProposalEmail(event) {
+  event.preventDefault();
+  const result = calculateEstimate();
+
+  if (!result.canShow) {
+    setStatus("proposalStatus", "Preencha primeiro o simulador para gerar uma proposta detalhada.", "error");
+    return;
+  }
+
+  const nome = byId("nome")?.value?.trim();
+  const empresa = byId("empresa")?.value?.trim();
+  const email = byId("email")?.value?.trim();
+  const telefone = byId("telefone")?.value?.trim();
+  const tipoEdificio = byId("tipoEdificio")?.value?.trim();
+  const mensagem = byId("mensagem")?.value?.trim() || "(sem mensagem adicional)";
+  const area = byId("area")?.value?.trim();
+
+  if (!nome || !empresa || !email || !telefone || !tipoEdificio) {
+    setStatus("proposalStatus", "Preencha todos os campos obrigatórios do pedido de proposta.", "error");
+    return;
+  }
+
+  const form = byId("proposal-form");
+  const submitButton = form?.querySelector('button[type="submit"]');
+  submitButton && (submitButton.disabled = true);
+  setStatus("proposalStatus", "A enviar pedido de orçamento...", "");
+
+  try {
+    await submitToFormspree({
+      formType: "Pedido de orçamento",
+      _subject: `Pedido de Proposta – ${result.services.join(" + ")}`,
+      nome,
+      empresa,
+      email,
+      telefone,
+      tipoEdificio,
+      area: `${area} m²`,
+      distrito: result.district || "N/A",
+      utilizacaoTipo: result.ut ? result.ut.label : "N/A",
+      duracaoCoordenacao: byId("includeCoordenacao")?.checked ? "Valor mensal" : "N/A",
+      servicos: result.services.join(", "),
+      estimativa: result.items.map(([label, price]) => `${label}: ${euro.format(price)}`).join(" | "),
+      valorTotal: euro.format(result.totalPrice),
+      mensagem,
+    });
+
+    form?.reset();
+
+    ["mainService", "area", "utIndex", "district"].forEach((id) => {
+      if (byId(id)) byId(id).value = "";
+    });
+
+    ["includeMAP", "includeCoordenacao", "includeSimulacro"].forEach((id) => {
+      if (byId(id)) byId(id).checked = false;
+    });
+
+    renderEstimate();
+    setStatus("proposalStatus", "Pedido enviado com sucesso. Entraremos em contacto em breve.", "success");
+  } catch (error) {
+    setStatus("proposalStatus", error.message || "Não foi possível enviar o formulário.", "error");
+  } finally {
+    submitButton && (submitButton.disabled = false);
+  }
+}
+
+async function openContactEmail(event) {
+  event.preventDefault();
+  const name = byId("contactName")?.value?.trim();
+  const email = byId("contactEmail")?.value?.trim();
+  const phone = byId("contactPhone")?.value?.trim() || "";
+  const message = byId("contactMessage")?.value?.trim();
+
+  if (!name || !email || !message) {
+    setStatus("contactStatus", "Preencha nome, email e mensagem.", "error");
+    return;
+  }
+
+  const form = byId("contact-form");
+  const submitButton = form?.querySelector('button[type="submit"]');
+  submitButton && (submitButton.disabled = true);
+  setStatus("contactStatus", "A enviar mensagem...", "");
+
+  try {
+    await submitToFormspree({
+      formType: "Contacto geral",
+      _subject: `Pedido de contacto — ${name}`,
+      nome: name,
+      email,
+      telefone: phone || "N/A",
+      mensagem: message,
+    });
+    form?.reset();
+    setStatus("contactStatus", "Mensagem enviada com sucesso.", "success");
+  } catch (error) {
+    setStatus("contactStatus", error.message || "Não foi possível enviar a mensagem.", "error");
+  } finally {
+    submitButton && (submitButton.disabled = false);
+  }
+}
+
+function init() {
+  byId("year") && (byId("year").textContent = new Date().getFullYear());
+
+  [
+    "mainService",
+    "includeMAP",
+    "includeCoordenacao",
+    "includeSimulacro",
+    "area",
+    "utIndex",
+    "district"
+  ].forEach((id) => {
+    const el = byId(id);
+    el && el.addEventListener("input", renderEstimate);
+    el && el.addEventListener("change", renderEstimate);
+  });
+
+  byId("proposal-form")?.addEventListener("submit", openProposalEmail);
+  byId("contact-form")?.addEventListener("submit", openContactEmail);
+  renderEstimate();
+}
+
+document.addEventListener("DOMContentLoaded", init);
