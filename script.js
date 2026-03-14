@@ -32,24 +32,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }).format(value);
 
   const districtCosts = {
-    "Viana do Castelo": 70,
-    "Braga": 65,
-    "Vila Real": 85,
-    "Bragança": 95,
-    "Porto": 55,
-    "Aveiro": 50,
-    "Viseu": 75,
-    "Guarda": 90,
-    "Coimbra": 55,
-    "Castelo Branco": 85,
-    "Leiria": 45,
-    "Lisboa": 25,
-    "Santarém": 40,
-    "Setúbal": 35,
-    "Portalegre": 90,
-    "Évora": 75,
-    "Beja": 85,
-    "Faro": 95
+    "Viana do Castelo": 220,
+  "Braga": 220,
+  "Vila Real": 220,
+  "Bragança": 220,
+  "Porto": 220,
+  "Aveiro": 180,
+  "Viseu": 180,
+  "Guarda": 180,
+  "Coimbra": 180,
+  "Castelo Branco": 180,
+  "Leiria": 180,
+  "Lisboa": 25,
+  "Santarém": 40,
+  "Setúbal": 40,
+  "Portalegre": 120,
+  "Évora": 120,
+  "Beja": 120,
+  "Faro": 180,
   };
 
   const utMultipliers = {
