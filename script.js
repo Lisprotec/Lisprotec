@@ -113,7 +113,6 @@ function calculateEstimate() {
   if (!includeMAP || areaNum <= 0 || !ut) return { total: 0, discount: 0 };
   return calcAreaBasedPrice(0.6, 350, true);
 }
-  }
 
   function calcCoordenacaoPrice() {
     if (!includeCoordenacao || areaNum <= 0) return { total: 0, discount: 0 };
