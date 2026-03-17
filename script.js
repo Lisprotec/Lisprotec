@@ -398,6 +398,7 @@ function init() {
   initSCIECalculator();
   initFireloadCalculator();
 }
+}
 
 document.addEventListener("DOMContentLoaded", init);
 /* ===== CALCULADORA SCIE ===== */
