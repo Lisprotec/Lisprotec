@@ -1134,7 +1134,6 @@ function getSCIEMeasures(ut, category) {
 
   return measures;
 }
-
 function renderSCIEResult(data, result) {
   const box = scieById("resultado-risco");
   if (!box) return;
@@ -1142,11 +1141,27 @@ function renderSCIEResult(data, result) {
   const catText = `${result.category}.ª Categoria de Risco`;
   const measures = getSCIEMeasures(data.ut, result.category);
 
+  const enquadramento = result.category === 1
+    ? {
+        tipo: "Ficha de Segurança",
+        texto: "Em regra, situações de 1.ª categoria tendem a enquadrar-se em Ficha de Segurança, sem prejuízo de validação técnica."
+      }
+    : {
+        tipo: "Projeto SCIE",
+        texto: "Em regra, situações de 2.ª, 3.ª ou 4.ª categoria tendem a enquadrar-se em Projeto SCIE, sem prejuízo de validação técnica."
+      };
+
   box.className = "panel risk-result show";
   box.innerHTML = `
     <div class="risk-badge cat-${result.category}">${catText}</div>
     <h3 style="margin-top:0;">${SCIE_UT_LABELS[data.ut]}</h3>
     <p class="small-note">A categoria apresentada é a mais baixa cujos critérios foram integralmente cumpridos.</p>
+
+    <h4 class="risk-section-title">Enquadramento documental indicativo</h4>
+    <div class="panel" style="padding:16px; margin-bottom:14px;">
+      <strong style="font-size:18px;">${enquadramento.tipo}</strong>
+      <p style="margin:8px 0 0;">${enquadramento.texto}</p>
+    </div>
 
     <h4 class="risk-section-title">Critérios verificados para esta categoria</h4>
     <ul class="criteria-list">
@@ -1177,6 +1192,7 @@ function renderSCIEResult(data, result) {
     </p>
   `;
 }
+
 
 function calcularRiscoSCIE() {
   const data = readSCIEData();
