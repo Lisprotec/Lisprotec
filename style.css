@@ -700,4 +700,128 @@ hr {
   .desktop-nav a {
     white-space: normal;
   }
+  /* ===== CALCULADORA SCIE ===== */
+
+.risk-calculator {
+  grid-column: 1 / -1;
+  margin-top: 28px;
+}
+
+.risk-calculator .form-panel {
+  padding: 28px;
+}
+
+.risk-inline-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.risk-result {
+  display: none;
+  margin-top: 22px;
+  padding: 24px;
+}
+
+.risk-result.show {
+  display: block;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.risk-badge.cat-1 {
+  color: #067647;
+  background: #ecfdf3;
+  border-color: #abefc6;
+}
+
+.risk-badge.cat-2 {
+  color: #175cd3;
+  background: #eff8ff;
+  border-color: #b2ddff;
+}
+
+.risk-badge.cat-3 {
+  color: #b54708;
+  background: #fffaeb;
+  border-color: #fedf89;
+}
+
+.risk-badge.cat-4 {
+  color: #b42318;
+  background: #fef3f2;
+  border-color: #fecdca;
+}
+
+.criteria-list,
+.measures-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.criteria-list li,
+.measures-list li {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.criteria-list li.ok {
+  border-color: #abefc6;
+  background: #f6fef9;
+}
+
+.criteria-list li.fail {
+  border-color: #fecdca;
+  background: #fff6f5;
+}
+
+.measures-list li {
+  border-color: rgba(184, 97, 28, 0.18);
+  background: rgba(184, 97, 28, 0.05);
+}
+
+.measures-list strong,
+.criteria-list strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.risk-section-title {
+  margin: 24px 0 10px;
+  font-size: 1.05rem;
+}
+
+.risk-legal-note {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.risk-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .risk-inline-grid {
+    grid-template-columns: 1fr;
   }
+}
+
