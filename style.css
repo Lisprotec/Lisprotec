@@ -700,6 +700,7 @@ hr {
   .desktop-nav a {
     white-space: normal;
   }
+  }
   /* ===== CALCULADORA SCIE ===== */
 
 .risk-calculator {
@@ -822,6 +823,7 @@ hr {
 @media (max-width: 720px) {
   .risk-inline-grid {
     grid-template-columns: 1fr;
+  }
   }
   /* ===== CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO ===== */
 
@@ -961,6 +963,7 @@ hr {
 @media (max-width: 900px) {
   .risk-inline-grid {
     grid-template-columns: 1fr;
+  }
   }
 /* ===== VERIFICADOR SCIE + EXPORTAÇÃO PDF ===== */
 
