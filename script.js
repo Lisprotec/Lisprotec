@@ -1671,6 +1671,281 @@ function initFireloadCalculator() {
   flById("fl-add-item-btn")?.addEventListener("click", addFireloadItem);
   flById("fl-calc-btn")?.addEventListener("click", calculateFireloadProfessional);
   flById("fl-reset-btn")?.addEventListener("click", resetFireloadProfessional);
+  /* ===== VERIFICADOR DE ENQUADRAMENTO SCIE ===== */
+
+const CHECK_UT_LABELS = {
+  I: "UT I – Habitacional",
+  II: "UT II – Estacionamentos",
+  III: "UT III – Administrativos",
+  IV: "UT IV – Escolares",
+  V: "UT V – Hospitalares e Lares",
+  VI: "UT VI – Espetáculos e reuniões públicas",
+  VII: "UT VII – Hoteleiros e restauração",
+  VIII: "UT VIII – Comerciais e gares de transporte",
+  IX: "UT IX – Desportivos e de lazer",
+  X: "UT X – Museus e galerias",
+  XI: "UT XI – Bibliotecas e arquivos",
+  XII: "UT XII – Industrial / Oficinas / Armazéns"
+};
+
+function checkById(id) {
+  return document.getElementById(id);
+}
+
+function readCheckData() {
+  return {
+    ut: checkById("check-ut")?.value || "",
+    area: Number(checkById("check-area")?.value || 0),
+    height: Number(checkById("check-height")?.value || 0),
+    effective: Number(checkById("check-effective")?.value || 0),
+    pisos: Number(checkById("check-pisos")?.value || 0),
+    publicUse: checkById("check-public")?.value || "",
+    sleep: checkById("check-sleep")?.value || "",
+    storage: checkById("check-storage")?.value || ""
+  };
+}
+
+function validateCheckData(data) {
+  if (!data.ut) return "Selecione a utilização-tipo.";
+  if (data.area <= 0) return "Introduza a área.";
+  if (data.height < 0) return "Introduza uma altura válida.";
+  if (data.effective < 0) return "Introduza um efetivo válido.";
+  if (data.pisos < 0) return "Introduza um número de pisos válido.";
+  if (!data.publicUse) return "Indique se existe atendimento ao público.";
+  if (!data.sleep) return "Indique se existe dormida / pernoita.";
+  if (!data.storage) return "Indique se existe armazenamento relevante.";
+  return "";
+}
+
+function buildCheckAssessment(data) {
+  const outputs = [];
+  const nextSteps = [];
+  let level = "baixo";
+
+  const ut = data.ut;
+
+  if (ut === "I" && data.height <= 9 && data.pisos <= 1) {
+    outputs.push("Tende para enquadramento simples da utilização habitacional.");
+    nextSteps.push("Validar a categoria de risco com a calculadora SCIE.");
+  } else if (ut === "I") {
+    outputs.push("Tende para enquadramento habitacional com maior exigência técnica.");
+    nextSteps.push("Recomenda-se análise técnica e confirmação documental.");
+    level = "medio";
+  }
+
+  if (["III", "VIII", "X"].includes(ut) && data.effective <= 100 && data.height <= 9) {
+    outputs.push("Pode enquadrar em situação compatível com ficha de segurança, dependendo da categoria final.");
+    nextSteps.push("Confirmar categoria de risco e exigências específicas do município / processo.");
+  }
+
+  if (["IV", "V", "VI", "VII", "IX", "XI", "XII"].includes(ut)) {
+    outputs.push("A utilização-tipo tende a exigir análise técnica mais cuidada.");
+    nextSteps.push("Confirmar categoria de risco e medidas de autoproteção aplicáveis.");
+    level = "medio";
+  }
+
+  if (data.publicUse === "sim") {
+    outputs.push("A existência de público reforça a necessidade de validação do efetivo e das condições de evacuação.");
+  }
+
+  if (data.sleep === "sim") {
+    outputs.push("A existência de dormida / pernoita aumenta a sensibilidade do enquadramento.");
+    nextSteps.push("Validar condições específicas de evacuação, deteção e organização de segurança.");
+    level = "elevado";
+  }
+
+  if (data.storage === "sim" || ["XI", "XII"].includes(ut)) {
+    outputs.push("Existe probabilidade de ser relevante calcular a densidade da carga de incêndio.");
+    nextSteps.push("Usar a calculadora de carga de incêndio e confirmar o impacto no enquadramento.");
+    if (level !== "elevado") level = "medio";
+  }
+
+  if (data.height > 9 || data.effective > 100 || data.pisos > 1) {
+    outputs.push("Os parâmetros indicam um caso com probabilidade de sair do enquadramento mais simples.");
+    nextSteps.push("Confirmar se o caso exige projeto SCIE.");
+    if (level !== "elevado") level = "medio";
+  }
+
+  if (data.height > 28 || data.effective > 1000 || data.storage === "sim" && ut === "XII") {
+    outputs.push("Os dados apontam para maior complexidade técnica.");
+    nextSteps.push("É fortemente recomendada análise técnica especializada.");
+    level = "elevado";
+  }
+
+  const likelyDocs = [];
+  if (level === "baixo") likelyDocs.push("Ficha de segurança ou enquadramento documental simplificado, sujeito a confirmação.");
+  if (level !== "baixo") likelyDocs.push("Projeto SCIE ou verificação técnica aprofundada, sujeito a confirmação.");
+  likelyDocs.push("Verificação da necessidade de medidas de autoproteção.");
+  if (["XI", "XII"].includes(ut) || data.storage === "sim") likelyDocs.push("Cálculo da densidade da carga de incêndio pode ser necessário.");
+
+  return { level, outputs, nextSteps, likelyDocs };
+}
+
+function renderCheckResult(data, assessment) {
+  const box = checkById("check-result");
+  if (!box) return;
+
+  const badgeClass = assessment.level === "baixo" ? "cat-1" : assessment.level === "medio" ? "cat-3" : "cat-4";
+  const badgeLabel = assessment.level === "baixo" ? "Enquadramento simples" : assessment.level === "medio" ? "Enquadramento intermédio" : "Enquadramento técnico reforçado";
+
+  box.className = "panel risk-result show";
+  box.innerHTML = `
+    <div class="risk-badge ${badgeClass}">${badgeLabel}</div>
+    <h3 style="margin-top:0;">${CHECK_UT_LABELS[data.ut]}</h3>
+
+    <h4 class="risk-section-title">Leitura preliminar</h4>
+    <ul class="criteria-list">
+      ${assessment.outputs.map((item) => `<li><strong>Observação</strong><span>${item}</span></li>`).join("")}
+    </ul>
+
+    <h4 class="risk-section-title">Documentação / verificação provável</h4>
+    <ul class="measures-list">
+      ${assessment.likelyDocs.map((item) => `<li><strong>A validar</strong><span>${item}</span></li>`).join("")}
+    </ul>
+
+    <h4 class="risk-section-title">Próximos passos</h4>
+    <ul class="memory-list">
+      ${assessment.nextSteps.map((item) => `<li><strong>Passo</strong><span>${item}</span></li>`).join("")}
+    </ul>
+
+    <p class="risk-legal-note">
+      Ferramenta orientadora. A confirmação final depende do RJ-SCIE e do Regulamento Técnico aplicável ao caso concreto.
+    </p>
+  `;
+}
+
+function calculateSCIECheck() {
+  const data = readCheckData();
+  const error = validateCheckData(data);
+  if (error) {
+    alert(error);
+    return;
+  }
+
+  const assessment = buildCheckAssessment(data);
+  renderCheckResult(data, assessment);
+}
+
+function resetSCIECheck() {
+  [
+    "check-ut",
+    "check-area",
+    "check-height",
+    "check-effective",
+    "check-pisos",
+    "check-public",
+    "check-sleep",
+    "check-storage"
+  ].forEach((id) => {
+    const el = checkById(id);
+    if (!el) return;
+    if (el.tagName === "SELECT") el.selectedIndex = 0;
+    else el.value = "";
+  });
+
+  const box = checkById("check-result");
+  if (box) {
+    box.className = "panel risk-result";
+    box.innerHTML = "";
+  }
+}
+
+function initSCIECheck() {
+  if (!checkById("check-calc-btn")) return;
+  checkById("check-calc-btn")?.addEventListener("click", calculateSCIECheck);
+  checkById("check-reset-btn")?.addEventListener("click", resetSCIECheck);
+}
+
+/* ===== EXPORTAÇÃO PDF ===== */
+
+function buildPdfHtml(title, sourceSelector) {
+  const source = document.querySelector(sourceSelector);
+  if (!source) return "";
+
+  const content = source.innerHTML;
+  const now = new Date().toLocaleString("pt-PT");
+
+  return `
+    <!doctype html>
+    <html lang="pt-PT">
+      <head>
+        <meta charset="utf-8" />
+        <title>${title}</title>
+        <style>
+          body { font-family: Arial, sans-serif; color:#111827; padding:28px; }
+          h1, h2, h3 { margin: 0 0 12px 0; }
+          .meta { margin: 0 0 18px 0; color:#4b5563; font-size:14px; }
+          .panel, .pdf-box { border:1px solid #d1d5db; border-radius:12px; padding:14px; margin-bottom:14px; }
+          ul { margin: 10px 0 0 18px; }
+          li { margin-bottom: 8px; }
+          .btn { display:none !important; }
+          @media print { body { margin:0; } }
+        </style>
+      </head>
+      <body>
+        <h1>${title}</h1>
+        <div class="meta">Lisprotec · Exportado em ${now}</div>
+        <div class="pdf-box">${content}</div>
+      </body>
+    </html>
+  `;
+}
+
+function openPrintWindow(title, sourceSelector) {
+  const html = buildPdfHtml(title, sourceSelector);
+  if (!html) {
+    alert("Não foi encontrado conteúdo para exportar.");
+    return;
+  }
+
+  const win = window.open("", "_blank");
+  if (!win) {
+    alert("O navegador bloqueou a janela de exportação.");
+    return;
+  }
+
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+
+  setTimeout(() => {
+    win.focus();
+    win.print();
+  }, 300);
+}
+
+function exportSCIEPdf() {
+  const box = document.querySelector("#resultado-risco.show");
+  if (!box) {
+    alert("Ainda não existe resultado da categoria SCIE para exportar.");
+    return;
+  }
+  openPrintWindow("Resultado da Categoria de Risco SCIE", "#resultado-risco");
+}
+
+function exportFireloadPdf() {
+  const box = document.querySelector("#fl-result.show");
+  if (!box) {
+    alert("Ainda não existe resultado da carga de incêndio para exportar.");
+    return;
+  }
+  openPrintWindow("Resultado da Carga de Incêndio", "#fl-result");
+}
+
+function exportCheckPdf() {
+  const box = document.querySelector("#check-result.show");
+  if (!box) {
+    alert("Ainda não existe resultado do verificador de enquadramento para exportar.");
+    return;
+  }
+  openPrintWindow("Verificador de Enquadramento SCIE", "#check-result");
+}
+
+function initPdfExports() {
+  document.getElementById("export-scie-pdf-btn")?.addEventListener("click", exportSCIEPdf);
+  document.getElementById("export-fireload-pdf-btn")?.addEventListener("click", exportFireloadPdf);
+  document.getElementById("export-check-pdf-btn")?.addEventListener("click", exportCheckPdf);
+}
 }
 
 
