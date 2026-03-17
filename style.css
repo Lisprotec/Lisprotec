@@ -628,84 +628,10 @@ hr {
   border-color: rgba(184,97,28,.3);
 }
 
-/* RESPONSIVO */
-@media (max-width: 1120px) {
-  .nav-wrap {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 960px) {
-  .hero-grid,
-  .cards-grid,
-  .simulator-grid,
-  .contact-grid,
-  .page-grid,
-  .info-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .cards-grid { grid-template-columns: repeat(2, 1fr); }
-
-  .page-side { position: static; }
-
-  .nav-wrap {
-    min-height: 70px;
-    gap: 10px;
-  }
-
-  .site-logo,
-  .brand img {
-    height: 46px;
-  }
-
-  .desktop-nav {
-    gap: 6px;
-  }
-
-  .desktop-nav a {
-    padding: 7px 10px;
-    min-height: 36px;
-    font-size: 0.84rem;
-  }
-}
-
-@media (max-width: 720px) {
-  .section { padding: 76px 0; }
-
-  .two-col,
-  .contact-cards,
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-wrap {
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px 0 12px;
-  }
-
-  .brand {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .desktop-nav {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-left: 0;
-  }
-
-  .desktop-nav a {
-    white-space: normal;
-  }
-  }
-  /* ===== CALCULADORA SCIE ===== */
-
+/* ===== CALCULADORA SCIE ===== */
 .risk-calculator {
-  grid-column: 1 / -1;
-  margin-top: 28px;
+  width: min(1120px, calc(100% - 32px));
+  margin: 28px auto 0;
 }
 
 .risk-calculator .form-panel {
@@ -764,8 +690,15 @@ hr {
   border-color: #fecdca;
 }
 
+.risk-badge.info {
+  color: #175cd3;
+  background: #eff8ff;
+  border-color: #b2ddff;
+}
+
 .criteria-list,
-.measures-list {
+.measures-list,
+.memory-list {
   list-style: none;
   padding: 0;
   margin: 18px 0 0;
@@ -774,7 +707,8 @@ hr {
 }
 
 .criteria-list li,
-.measures-list li {
+.measures-list li,
+.memory-list li {
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -797,7 +731,8 @@ hr {
 }
 
 .measures-list strong,
-.criteria-list strong {
+.criteria-list strong,
+.memory-list strong {
   display: block;
   margin-bottom: 4px;
 }
@@ -820,17 +755,11 @@ hr {
   margin-top: 18px;
 }
 
-@media (max-width: 720px) {
-  .risk-inline-grid {
-    grid-template-columns: 1fr;
-  }
-  }
-  /* ===== CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO ===== */
-
+/* ===== CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO ===== */
 .fireload-pro {
-  width: 100%;
+  width: min(1120px, calc(100% - 32px));
   max-width: 100%;
-  margin-top: 28px;
+  margin: 28px auto 0;
 }
 
 .fireload-pro .form-panel {
@@ -884,94 +813,18 @@ hr {
   color: var(--primary);
 }
 
-.hidden {
-  display: none !important;
-}
-
-.risk-result {
-  display: none;
-  margin-top: 22px;
-  padding: 24px;
-}
-
-.risk-result.show {
-  display: block;
-}
-
-.risk-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  border: 1px solid var(--line);
-  background: #fff;
-}
-
-.risk-badge.info {
-  color: #175cd3;
-  background: #eff8ff;
-  border-color: #b2ddff;
-}
-
-.criteria-list,
-.measures-list,
-.memory-list {
-  list-style: none;
-  padding: 0;
-  margin: 18px 0 0;
-  display: grid;
-  gap: 10px;
-}
-
-.criteria-list li,
-.measures-list li,
-.memory-list li {
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fff;
-}
-
-.criteria-list strong,
-.measures-list strong,
-.memory-list strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.risk-section-title {
-  margin: 24px 0 10px;
-  font-size: 1.05rem;
-}
-
-.risk-legal-note {
-  margin-top: 16px;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.risk-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 18px;
-}
-
-@media (max-width: 900px) {
-  .risk-inline-grid {
-    grid-template-columns: 1fr;
-  }
-  }
 /* ===== VERIFICADOR SCIE + EXPORTAÇÃO PDF ===== */
+.scie-checker,
+.pdf-tools {
+  width: min(1120px, calc(100% - 32px));
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .scie-checker {
-  width: 100%;
-  max-width: 100%;
   margin-top: 32px;
-  box-sizing: border-box;
 }
 
 .scie-checker .form-panel,
@@ -1020,12 +873,98 @@ hr {
   margin: 10px 0 0 18px;
 }
 
+/* RESPONSIVO */
+@media (max-width: 1120px) {
+  .nav-wrap {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 960px) {
+  .hero-grid,
+  .cards-grid,
+  .simulator-grid,
+  .contact-grid,
+  .page-grid,
+  .info-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-side {
+    position: static;
+  }
+
+  .nav-wrap {
+    min-height: 70px;
+    gap: 10px;
+  }
+
+  .site-logo,
+  .brand img {
+    height: 46px;
+  }
+
+  .desktop-nav {
+    gap: 6px;
+  }
+
+  .desktop-nav a {
+    padding: 7px 10px;
+    min-height: 36px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .risk-inline-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 76px 0;
+  }
+
+  .two-col,
+  .contact-cards,
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-wrap {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px 0 12px;
+  }
+
+  .brand {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .desktop-nav {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 0;
+  }
+
+  .desktop-nav a {
+    white-space: normal;
+  }
+
+  .risk-inline-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media print {
   body {
     margin: 0;
   }
 }
-
-
-
-
