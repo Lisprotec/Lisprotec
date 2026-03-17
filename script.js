@@ -398,7 +398,6 @@ function init() {
   initSCIECalculator();
   initFireloadCalculator();
 }
-}
 
 document.addEventListener("DOMContentLoaded", init);
 /* ===== CALCULADORA SCIE ===== */
@@ -1207,6 +1206,8 @@ function initSCIECalculator() {
 
   calcBtn.addEventListener("click", calcularRiscoSCIE);
   resetBtn.addEventListener("click", resetSCIECalculator);
+  }
+
   /* ===== CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO ===== */
 
 /*
