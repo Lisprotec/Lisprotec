@@ -395,6 +395,7 @@ function init() {
   byId("proposal-form")?.addEventListener("submit", openProposalEmail);
   byId("contact-form")?.addEventListener("submit", openContactEmail);
   renderEstimate();
+  initSCIECalculator();
 }
 
 document.addEventListener("DOMContentLoaded", init);
