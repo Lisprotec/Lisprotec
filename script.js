@@ -1674,6 +1674,7 @@ function initFireloadCalculator() {
   flById("fl-add-item-btn")?.addEventListener("click", addFireloadItem);
   flById("fl-calc-btn")?.addEventListener("click", calculateFireloadProfessional);
   flById("fl-reset-btn")?.addEventListener("click", resetFireloadProfessional);
+   }
   /* ===== VERIFICADOR DE ENQUADRAMENTO SCIE ===== */
 
 const CHECK_UT_LABELS = {
@@ -1948,7 +1949,6 @@ function initPdfExports() {
   document.getElementById("export-scie-pdf-btn")?.addEventListener("click", exportSCIEPdf);
   document.getElementById("export-fireload-pdf-btn")?.addEventListener("click", exportFireloadPdf);
   document.getElementById("export-check-pdf-btn")?.addEventListener("click", exportCheckPdf);
-}
 }
 
 
