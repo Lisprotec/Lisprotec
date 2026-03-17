@@ -313,6 +313,182 @@
     </p>
 
     <div id="resultado-risco" class="panel risk-result"></div>
+    <!-- CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO -->
+<div class="fireload-pro">
+  <div class="section-head center narrow" style="margin-top: 28px;">
+    <div class="eyebrow subtle">Densidade da Carga de Incêndio</div>
+    <h2>Calcule a densidade da carga de incêndio modificada</h2>
+    <p>
+      Escolha o método de cálculo e introduza os dados do compartimento corta-fogo.
+    </p>
+  </div>
+
+  <div class="panel form-panel">
+    <div class="risk-inline-grid">
+      <div class="field-group">
+        <label for="fl-method">Método de cálculo</label>
+        <select id="fl-method">
+          <option value="">Selecionar</option>
+          <option value="deterministico">Determinístico</option>
+          <option value="probabilistico">Probabilístico</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="fl-area">Área útil do compartimento corta-fogo (m²)</label>
+        <input id="fl-area" type="number" min="0" step="0.01" placeholder="Ex.: 850" />
+      </div>
+    </div>
+
+    <div id="fl-mode-note" class="small-note" style="margin-top: 10px;"></div>
+
+    <div id="fl-deterministico" class="hidden" style="margin-top: 22px;">
+      <div class="risk-inline-grid">
+        <div class="field-group">
+          <label for="fl-entry-mode">Modo de inserção</label>
+          <select id="fl-entry-mode">
+            <option value="predefinido">Produto da lista</option>
+            <option value="manual">Inserção manual</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="fl-product-select">Produto / material pré-definido</label>
+          <select id="fl-product-select">
+            <option value="">Selecionar produto</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="fl-manual-fields" class="risk-inline-grid hidden">
+        <div class="field-group">
+          <label for="fl-manual-name">Nome do material</label>
+          <input id="fl-manual-name" type="text" placeholder="Ex.: Embalagens multicamada" />
+        </div>
+        <div class="field-group">
+          <label for="fl-manual-category">Categoria</label>
+          <input id="fl-manual-category" type="text" placeholder="Ex.: Embalagens" />
+        </div>
+        <div class="field-group">
+          <label for="fl-manual-hi">Poder calorífico inferior Hi (MJ/kg)</label>
+          <input id="fl-manual-hi" type="number" min="0" step="0.01" />
+        </div>
+        <div class="field-group">
+          <label for="fl-manual-c">Coeficiente de combustibilidade C</label>
+          <input id="fl-manual-c" type="number" min="0" step="0.01" />
+        </div>
+        <div class="field-group">
+          <label for="fl-manual-r">Coeficiente de ativação R</label>
+          <input id="fl-manual-r" type="number" min="0" step="0.01" />
+        </div>
+        <div class="field-group">
+          <label for="fl-manual-unit">Unidade</label>
+          <select id="fl-manual-unit">
+            <option value="kg">kg</option>
+            <option value="t">t</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="risk-inline-grid" style="margin-top: 12px;">
+        <div class="field-group">
+          <label for="fl-quantity">Quantidade</label>
+          <input id="fl-quantity" type="number" min="0" step="0.01" placeholder="Ex.: 1200" />
+        </div>
+        <div class="field-group">
+          <label for="fl-unit">Unidade</label>
+          <select id="fl-unit">
+            <option value="kg">kg</option>
+            <option value="t">t</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="hero-actions" style="margin: 18px 0 0;">
+        <button type="button" class="btn btn-primary" id="fl-add-item-btn">Adicionar produto</button>
+      </div>
+
+      <div class="fl-table-wrap">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Categoria</th>
+              <th>Qtd.</th>
+              <th>Hi</th>
+              <th>C</th>
+              <th>R</th>
+              <th>Parcial</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="fl-items-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="fl-probabilistico" class="hidden" style="margin-top: 22px;">
+      <div class="risk-inline-grid">
+        <div class="field-group">
+          <label for="fl-prob-mode">Tipo de cálculo probabilístico</label>
+          <select id="fl-prob-mode">
+            <option value="">Selecionar</option>
+            <option value="atividade">Atividade (exceto armazenamento)</option>
+            <option value="armazenamento">Armazenamento</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="fl-prob-preset">Atividade / armazenamento pré-definido</label>
+          <select id="fl-prob-preset">
+            <option value="">Selecionar opção</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="fl-prob-zone-area">Área da zona (m²)</label>
+          <input id="fl-prob-zone-area" type="number" min="0" step="0.01" />
+        </div>
+
+        <div class="field-group">
+          <label for="fl-prob-height">Altura de armazenagem (m)</label>
+          <input id="fl-prob-height" type="number" min="0" step="0.01" />
+        </div>
+
+        <div class="field-group">
+          <label for="fl-prob-q">Valor estatístico q (MJ/m² ou MJ/m³)</label>
+          <input id="fl-prob-q" type="number" min="0" step="0.01" />
+        </div>
+
+        <div class="field-group">
+          <label for="fl-prob-c">Coeficiente C</label>
+          <input id="fl-prob-c" type="number" min="0" step="0.01" />
+        </div>
+
+        <div class="field-group">
+          <label for="fl-prob-r">Coeficiente R</label>
+          <select id="fl-prob-r">
+            <option value="">Selecionar</option>
+            <option value="2">2,0 — risco de ativação alto</option>
+            <option value="1.5">1,5 — risco de ativação médio</option>
+            <option value="1">1,0 — risco de ativação baixo</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="small-note" style="margin-top: 8px;">
+        Pode usar um valor pré-definido e ajustá-lo manualmente, se necessário.
+      </p>
+    </div>
+
+    <div class="hero-actions" style="margin: 20px 0 0;">
+      <button type="button" class="btn btn-primary" id="fl-calc-btn">Calcular</button>
+      <button type="button" class="btn btn-outline" id="fl-reset-btn">Limpar</button>
+    </div>
+
+    <div id="fl-result" class="panel risk-result"></div>
+  </div>
+</div>
   </div>
 </div>
         </div>
