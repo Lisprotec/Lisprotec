@@ -645,7 +645,7 @@ hr {
 }
 
 .risk-result {
-  display: none;
+  display: block;
   margin-top: 22px;
   padding: 24px;
 }
