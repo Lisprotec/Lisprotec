@@ -826,26 +826,23 @@ hr {
   /* ===== CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO ===== */
 
 .fireload-pro {
-  grid-column: 1 / -1;
-  margin-top: 32px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 28px;
 }
 
 .fireload-pro .form-panel {
-  padding: 28px;
-}
-
-.risk-inline-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
 }
 
 .fl-table-wrap {
-  margin-top: 18px;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: white;
+  box-sizing: border-box;
 }
 
 .fl-table {
