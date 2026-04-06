@@ -399,7 +399,7 @@ function init() {
   initFireloadCalculator();
   initSCIECheck();
   initPdfExports();
-
+  initAutoHideHeader();
 }
 
 document.addEventListener("DOMContentLoaded", init);
@@ -1972,5 +1972,37 @@ function initPdfExports() {
   document.getElementById("export-fireload-pdf-btn")?.addEventListener("click", exportFireloadPdf);
   document.getElementById("export-check-pdf-btn")?.addEventListener("click", exportCheckPdf);
 }
+function initAutoHideHeader() {
+  const header = document.querySelector(".site-header, .compact-header");
+  if (!header) return;
 
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const revealOffset = 10;
+  const hideAfter = 120;
+
+  function updateHeader() {
+    const currentScrollY = window.scrollY;
+    const scrollingDown = currentScrollY > lastScrollY;
+    const scrollingUp = currentScrollY < lastScrollY;
+
+    if (currentScrollY <= 0) {
+      header.classList.remove("header-hidden");
+    } else if (scrollingDown && currentScrollY > hideAfter) {
+      header.classList.add("header-hidden");
+    } else if (scrollingUp && Math.abs(lastScrollY - currentScrollY) > revealOffset) {
+      header.classList.remove("header-hidden");
+    }
+
+    lastScrollY = currentScrollY;
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateHeader);
+      ticking = true;
+    }
+  }, { passive: true });
+}
 
