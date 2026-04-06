@@ -579,6 +579,201 @@ textarea {
   border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+/* SECÇÃO "CONTACTO" COM IMAGEM DE FUNDO */
+#contacto {
+  position: relative;
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.60), rgba(15, 23, 42, 0.60)),
+    url("/UCC_3aCAT-1024x466.jpg") center center / cover no-repeat;
+  overflow: hidden;
+}
+
+#contacto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.10) 0%, rgba(15, 23, 42, 0.24) 100%);
+  pointer-events: none;
+}
+
+#contacto .container {
+  position: relative;
+  z-index: 1;
+}
+
+#contacto .section-head h2,
+#contacto .section-head p,
+#contacto .panel h3,
+#contacto .panel p,
+#contacto .contact-list,
+#contacto .contact-list a,
+#contacto .field-group label,
+#contacto .small-note {
+  color: #ffffff;
+}
+
+#contacto .panel {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#contacto .panel:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
+
+#contacto input,
+#contacto select,
+#contacto textarea {
+  background: rgba(255, 255, 255, 0.94);
+  color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+#contacto input::placeholder,
+#contacto textarea::placeholder {
+  color: #64748b;
+}
+
+#contacto input:focus,
+#contacto select:focus,
+#contacto textarea:focus {
+  background: #ffffff;
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14);
+}
+
+/* BLOCO DA DENSIDADE COMO FUNDO DE SECÇÃO, NÃO COMO CARTÃO */
+.fireload-pro {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 88px 0;
+  border-radius: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.58)),
+    url("/Compartmentation-Plans-1.webp") center center / cover no-repeat;
+  box-shadow: none;
+}
+
+.fireload-pro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.24) 100%);
+  pointer-events: none;
+}
+
+.fireload-pro > * {
+  position: relative;
+  z-index: 1;
+}
+
+.fireload-pro .form-panel {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.fireload-pro .form-panel:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
+
+.fireload-pro h1,
+.fireload-pro h2,
+.fireload-pro h3,
+.fireload-pro p,
+.fireload-pro label,
+.fireload-pro .small-note,
+.fireload-pro .panel-kicker {
+  color: #ffffff;
+}
+
+.fireload-pro input,
+.fireload-pro select,
+.fireload-pro textarea {
+  background: rgba(255, 255, 255, 0.94);
+  color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.fireload-pro input::placeholder,
+.fireload-pro textarea::placeholder {
+  color: #64748b;
+}
+
+.fireload-pro input:focus,
+.fireload-pro select:focus,
+.fireload-pro textarea:focus {
+  background: #ffffff;
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14);
+}
+
+.fireload-pro .fl-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+.fireload-pro .fl-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.fireload-pro .fl-table th,
+.fireload-pro .fl-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  text-align: left;
+  vertical-align: top;
+  color: #ffffff;
+}
+
+.fireload-pro .fl-table thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.fireload-pro .fl-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.fireload-pro .fl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
 .simulator-wrap {
   max-width: 1120px;
 }
@@ -1079,133 +1274,6 @@ hr {
   margin-top: 18px;
 }
 
-/* ===== DENSIDADE DA CARGA DE INCÊNDIO COM IMAGEM DE FUNDO ===== */
-.fireload-pro {
-  position: relative;
-  width: min(1120px, calc(100% - 32px));
-  max-width: 100%;
-  margin: 28px auto 0;
-  padding: 28px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background:
-    linear-gradient(rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.58)),
-    url("/Compartmentation-Plans-1.webp") center center / cover no-repeat;
-  box-shadow: var(--shadow-md);
-}
-
-.fireload-pro::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.24) 100%);
-  pointer-events: none;
-}
-
-.fireload-pro > * {
-  position: relative;
-  z-index: 1;
-}
-
-.fireload-pro .form-panel {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: var(--radius);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.fireload-pro .form-panel:hover {
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
-}
-
-.fireload-pro h1,
-.fireload-pro h2,
-.fireload-pro h3,
-.fireload-pro p,
-.fireload-pro label,
-.fireload-pro .small-note,
-.fireload-pro .panel-kicker {
-  color: #ffffff;
-}
-
-.fireload-pro input,
-.fireload-pro select,
-.fireload-pro textarea {
-  background: rgba(255, 255, 255, 0.94);
-  color: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-}
-
-.fireload-pro input::placeholder,
-.fireload-pro textarea::placeholder {
-  color: #64748b;
-}
-
-.fireload-pro input:focus,
-.fireload-pro select:focus,
-.fireload-pro textarea:focus {
-  background: #ffffff;
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14);
-}
-
-.fireload-pro .fl-table-wrap {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 1;
-}
-
-.fireload-pro .fl-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.fireload-pro .fl-table th,
-.fireload-pro .fl-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  text-align: left;
-  vertical-align: top;
-  color: #ffffff;
-}
-
-.fireload-pro .fl-table thead th {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.82);
-  background: rgba(255, 255, 255, 0.10);
-}
-
-.fireload-pro .fl-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.fireload-pro .fl-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-}
-
 .pdf-tools {
   width: min(1120px, calc(100% - 32px));
   max-width: 100%;
@@ -1353,7 +1421,7 @@ hr {
   }
 
   .fireload-pro {
-    padding: 18px;
+    padding: 72px 0;
   }
 }
 
