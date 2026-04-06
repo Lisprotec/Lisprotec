@@ -97,10 +97,23 @@ textarea {
 
 .site-header,
 .compact-header {
-  position: relative;
-  top: auto;
-  background: #ffffff;
-  backdrop-filter: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  transition: transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
+}
+
+.site-header.header-hidden,
+.compact-header.header-hidden {
+  transform: translateY(-100%);
+}
+
+body {
+  padding-top: 76px;
 }
 
 .nav-wrap {
