@@ -1090,7 +1090,7 @@ hr {
   overflow: hidden;
   background:
     linear-gradient(rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.58)),
-    url("/Compartmentation-Plans-1.jpg") center center / cover no-repeat;
+    url("/Compartmentation-Plans-1.webp") center center / cover no-repeat;
   box-shadow: var(--shadow-md);
 }
 
