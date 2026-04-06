@@ -1,9 +1,9 @@
 :root {
-  --bg: #fffaf5;
-  --bg-soft: #fafbfc;
+  --bg: #f7f8fa;
+  --bg-soft: #f1f3f5;
   --card: #ffffff;
   --card-strong: #ffffff;
-  --alt: #f1f3f5;
+  --alt: #eef2f6;
   --text: #111111;
   --muted: #6b7280;
   --muted-strong: #334155;
@@ -11,7 +11,7 @@
   --line-strong: rgba(15, 23, 42, 0.16);
   --primary: #111111;
   --primary-dark: #000000;
-  --primary-soft: rgba(124, 45, 18, 0.08);
+  --primary-soft: rgba(17, 17, 17, 0.06);
   --success: #15803d;
   --success-soft: #f0fdf4;
   --warning: #b45309;
