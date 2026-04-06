@@ -41,13 +41,12 @@ html {
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(124, 45, 18, 0.035), transparent 28%),
-    linear-gradient(180deg, #fbfcfd 0%, var(--bg) 100%);
+  background: var(--bg);
   color: var(--text);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  padding-top: 76px;
 }
 
 a {
@@ -77,7 +76,7 @@ textarea {
 }
 
 .section-alt {
-  background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, var(--alt) 100%);
+  background: var(--alt);
 }
 
 .hidden {
@@ -258,8 +257,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 18% 18%, rgba(124, 45, 18, 0.05), transparent 26%),
-    radial-gradient(circle at 88% 24%, rgba(15, 23, 42, 0.04), transparent 24%);
+    radial-gradient(circle at 18% 18%, rgba(15, 23, 42, 0.03), transparent 26%),
+    radial-gradient(circle at 88% 24%, rgba(15, 23, 42, 0.02), transparent 24%);
   pointer-events: none;
 }
 
