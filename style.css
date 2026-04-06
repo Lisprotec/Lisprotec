@@ -448,6 +448,54 @@ textarea {
   margin: 0;
 }
 
+/* SECÇÃO "OS NOSSOS SERVIÇOS" COM IMAGEM DE FUNDO */
+#servicos {
+  position: relative;
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.62), rgba(15, 23, 42, 0.62)),
+    url("./assets/pscie-204133") center center / cover no-repeat;
+  overflow: hidden;
+}
+
+#servicos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.12) 0%, rgba(15, 23, 42, 0.28) 100%);
+  pointer-events: none;
+}
+
+#servicos .container {
+  position: relative;
+  z-index: 1;
+}
+
+#servicos .section-head h2,
+#servicos .section-head p,
+#servicos .service-card h3,
+#servicos .service-card p {
+  color: #ffffff;
+}
+
+#servicos .section-head p,
+#servicos .service-card p {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+#servicos .service-card {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#servicos .service-card:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
+
 .simulator-wrap {
   max-width: 1120px;
 }
