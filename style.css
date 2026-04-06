@@ -1,17 +1,17 @@
 :root {
-  --bg: #f7f8fa;
-  --bg-soft: #f1f3f5;
-  --card: #ffffff;
+  --bg: #eef2f6;
+  --bg-soft: #e8edf3;
+  --card: #fcfcfd;
   --card-strong: #ffffff;
-  --alt: #eef2f6;
+  --alt: #e3e9f0;
   --text: #111111;
   --muted: #6b7280;
   --muted-strong: #334155;
-  --line: #e5e7eb;
+  --line: #dde3ea;
   --line-strong: rgba(15, 23, 42, 0.16);
   --primary: #111111;
   --primary-dark: #000000;
-  --primary-soft: rgba(17, 17, 17, 0.06);
+  --primary-soft: rgba(15, 23, 42, 0.05);
   --success: #15803d;
   --success-soft: #f0fdf4;
   --warning: #b45309;
@@ -103,16 +103,13 @@ textarea {
   z-index: 1000;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
 }
 
 .site-header.header-hidden,
 .compact-header.header-hidden {
   transform: translateY(-100%);
-}
-
-body {
-  padding-top: 76px;
 }
 
 .nav-wrap {
@@ -287,7 +284,7 @@ body {
   min-height: 38px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(15, 23, 42, 0.08);
   color: var(--muted-strong);
   font-size: 0.78rem;
@@ -617,8 +614,7 @@ hr {
 }
 
 .site-footer {
-  background:
-    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
   color: rgba(255, 255, 255, 0.82);
   padding: 48px 0;
 }
@@ -798,7 +794,7 @@ hr {
 }
 
 .info-chip {
-  background: rgba(255,255,255,0.86);
+  background: rgba(252, 252, 253, 0.92);
   border-radius: 18px;
   padding: 14px 16px;
 }
@@ -809,8 +805,8 @@ hr {
 }
 
 .legal-note {
-  background: var(--primary-soft);
-  border: 1px solid rgba(124, 45, 18, 0.14);
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 18px;
   padding: 18px 20px;
 }
@@ -824,11 +820,10 @@ hr {
 .related-links a {
   padding: 14px 16px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(252, 252, 253, 0.94);
   font-weight: 600;
 }
 
-/* ===== CALCULADORA SCIE ===== */
 .risk-calculator {
   width: min(1120px, calc(100% - 32px));
   margin: 28px auto 0;
@@ -910,7 +905,7 @@ hr {
 .memory-list li {
   padding: 14px 16px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(252, 252, 253, 0.94);
 }
 
 .criteria-list li.ok {
@@ -924,8 +919,8 @@ hr {
 }
 
 .measures-list li {
-  border-color: rgba(124, 45, 18, 0.14);
-  background: rgba(124, 45, 18, 0.04);
+  border-color: rgba(15, 23, 42, 0.08);
+  background: rgba(15, 23, 42, 0.03);
 }
 
 .measures-list strong,
@@ -953,7 +948,6 @@ hr {
   margin-top: 18px;
 }
 
-/* ===== CALCULADORA PROFISSIONAL — DENSIDADE DA CARGA DE INCÊNDIO ===== */
 .fireload-pro {
   width: min(1120px, calc(100% - 32px));
   max-width: 100%;
@@ -1011,7 +1005,6 @@ hr {
   color: var(--text);
 }
 
-/* ===== EXPORTAÇÃO PDF ===== */
 .pdf-tools {
   width: min(1120px, calc(100% - 32px));
   max-width: 100%;
@@ -1056,7 +1049,6 @@ hr {
   margin: 10px 0 0 18px;
 }
 
-/* RESPONSIVO */
 @media (max-width: 1120px) {
   .nav-wrap {
     justify-content: center;
@@ -1164,5 +1156,14 @@ hr {
   body {
     margin: 0;
     background: #ffffff;
+    padding-top: 0;
+  }
+
+  .site-header,
+  .compact-header {
+    position: static;
+    transform: none !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
