@@ -99,6 +99,8 @@ textarea {
 .compact-header {
   position: relative;
   top: auto;
+  background: #ffffff;
+  backdrop-filter: none;
 }
 
 .nav-wrap {
